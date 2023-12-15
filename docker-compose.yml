@@ -4,6 +4,10 @@ networks:
   lab_network:
     driver: bridge
 
+volumes:
+  pgdata:
+    driver: local
+
 services:
   server:
     image: nginx:latest
@@ -77,9 +81,13 @@ services:
   db:
     networks:
       - lab_network
-    image: postgres:latest
+    image: postgres:14.1-alpine
     container_name: db
-    env_file:
-      - .env_docker
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: laba
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
