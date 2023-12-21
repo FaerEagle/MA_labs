@@ -39,13 +39,12 @@ def authenticate_APIView(request):   # получения, создание и �
                 "token": token,
             }
 
-            headers = {"Accept": "application/json"}
-            endpoint = "http://localhost/service2/authenticate/"
+            endpoint = "http://service2:8001/service2/"
             response = None
             while response is None:
                 try:
                     response = requests.post(
-                        endpoint, params=params, headers=headers).json()  #надо подумать что с ответом делать
+                        endpoint, data=params)  #надо подумать что с ответом делать
                     break
                 except Exception as error:
                     print("Ошибка аунтентификации, причина: ", error)

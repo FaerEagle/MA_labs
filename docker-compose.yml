@@ -9,29 +9,29 @@ volumes:
     driver: local
 
 services:
-  server:
-    image: nginx:latest
-    container_name: nginx
-    networks:
-      - lab_network
-    build:
-      context: .
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
+#  server:
+#    image: nginx:latest
+#    container_name: nginx
+#    networks:
+#      - lab_network
+#    build:
+#      context: .
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/nginx.conf
+#    ports:
+#      - "80:80"
 
-  rabbitmq:
-    image: rabbitmq:3.13.0-rc.2-management-alpine
-    container_name: rabbitmq
-    networks:
-      - lab_network
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=user
-      - RABBITMQ_DEFAULT_PASS=password
+#  rabbitmq:
+#    image: rabbitmq:3.13.0-rc.2-management-alpine
+#    container_name: rabbitmq
+#    networks:
+#      - lab_network
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=user
+#      - RABBITMQ_DEFAULT_PASS=password
 
   service1:
     container_name: service1
@@ -39,7 +39,7 @@ services:
       context: .
       dockerfile: service1/Dockerfile
     ports:
-      - "8000:80"
+      - "8000:8000"
     networks:
           - lab_network
     depends_on:
@@ -53,31 +53,33 @@ services:
     networks:
       - lab_network
     ports:
-      - "8001:80"
+      - "8001:8001"
     depends_on:
       - db
 
-  sender:
-    container_name: sender
-    networks:
-      - lab_network
-    build:
-      context: .
-      dockerfile: sender/Dockerfile
-    depends_on:
-      - rabbitmq
-      - db
-
-  consumer:
-    container_name: consumer
-    networks:
-      - lab_network
-    build:
-      context: .
-      dockerfile: consumer/Dockerfile
-    depends_on:
-      - rabbitmq
-      - db
+#  sender:
+#    container_name: sender
+#    networks:
+#      - lab_network
+#    build:
+#      context: .
+#      dockerfile: sender/Dockerfile
+#    ports:
+#      - "8002:8002"
+#    depends_on:
+#      - rabbitmq
+#      - db
+#
+#  consumer:
+#    container_name: consumer
+#    networks:
+#      - lab_network
+#    build:
+#      context: .
+#      dockerfile: consumer/Dockerfile
+#    depends_on:
+#      - rabbitmq
+#      - db
   db:
     networks:
       - lab_network
@@ -91,3 +93,16 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
+#  db2:
+#    networks:
+#      - lab_network
+#    image: postgres:14.1-alpine
+#    container_name: db2
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#    environment:
+#      POSTGRES_DB: service2
+#      POSTGRES_USER: admin
+#      POSTGRES_PASSWORD: admin
+#    ports:
+#      - "5433:5433"

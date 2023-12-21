@@ -16,3 +16,4 @@ RUN pip install -r requirements.txt
 RUN pip install pika
 
 CMD ["python", "app/views.py"]
+CMD ["python","manage.py","runserver", "0.0.0.0:8002"]
